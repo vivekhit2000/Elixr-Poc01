@@ -16,8 +16,8 @@ public class SearchFileApplication {
         Scanner sc = new Scanner(System.in);
         System.out.println("Enter the path");
 
-        filePath = sc.next();                                            //C:\\Users\\vivek.ojha\\Documents\\sample.txt
-        System.out.println("Processing");                                //C:\Users\vivek.ojha\Documents\\Mainsource1@poc1.txt
+        filePath = sc.next();
+        System.out.println("Processing");                               
 
         try {
 
