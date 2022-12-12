@@ -1,50 +1,51 @@
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.util.Scanner;
+import java.io.*;
 
 /*
-*SearchingAndCountingOfWords is used for Search the user input and if the input is found in the file, it will count the words.
+ *SearchingAndCountingOfWords is used for Search the user input and if the input is found in the file, it will count the words.
  */
 class SearchingAndCountingOfWords implements Runnable {
 
-    protected static String userInfo;
+    protected static String userSearchInput;
     @Override
     public void run() {
-        System.out.println("Enter word you want to search");
-        Scanner sc = new Scanner(System.in);
-        userInfo = sc.next();
-
 
         try {
-            String[] words = null ;
-            File f1 = new File(SearchFileApplication.filePath);
-            FileReader fr = new FileReader(f1);
-            BufferedReader br = new BufferedReader(fr);
-            String input;
+            BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+            System.out.println("Enter word you want to search");
+            userSearchInput = br.readLine();
 
-            int count = 0;
-            while ((input = br.readLine()) != null)
-            {
-                words = input.split("[.,!@#$%*()=/;:+_ ]");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            String[] words = null;
+            File filePathReader = new File(SearchFileApplication.inputFilePath);
+            FileReader fr = new FileReader(filePathReader);
+            BufferedReader br = new BufferedReader(fr);
+            String inputForSplit;
+
+            int userInputCount = 0;
+            while ((inputForSplit = br.readLine()) != null) {
+                words = inputForSplit.split("[.,!@#$%*()=/;:+_ ]");
                 for (String word : words) {
-                    if (word.equals(userInfo))
-                    {
-                        count++;
+                    if (word.equals(userSearchInput)) {
+                        userInputCount++;
                     }
                 }
             }
-            if (count != 0)
-            {
-                System.out.println("The given word is present in file are " + count + " times");
-            } else {
+            if (userInputCount != 0)
+
+                System.out.println("The given word is present in file are " + userInputCount + " times");
+
+            else {
                 System.out.println("The given word is not present in the file");
             }
-
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 }
+
+
+
