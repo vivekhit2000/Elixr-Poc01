@@ -4,25 +4,20 @@ import java.io.*;
  *SearchingAndCountingOfWords is used for Search the user input and if the input is found in the file, it will count the words.
  */
 class SearchingAndCountingOfWords implements Runnable {
+    protected String userSearchInput;
+    private final String inputFilePath;
+    SearchingAndCountingOfWords(String userSearchInput, String inputFilePath) {
+        this.userSearchInput = userSearchInput;
+        this.inputFilePath = inputFilePath;
+    }
 
-    protected static String userSearchInput;
     @Override
     public void run() {
-
-        try {
-            BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-            System.out.println("Enter word you want to search");
-            userSearchInput = br.readLine();
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
         try {
             String[] words = null;
-            File filePathReader = new File(SearchFileApplication.inputFilePath);
-            FileReader fr = new FileReader(filePathReader);
-            BufferedReader br = new BufferedReader(fr);
+            File filePathReader = new File(inputFilePath);
+            FileReader readContentofFle = new FileReader(filePathReader);
+            BufferedReader br = new BufferedReader(readContentofFle);
             String inputForSplit;
 
             int userInputCount = 0;
@@ -35,8 +30,9 @@ class SearchingAndCountingOfWords implements Runnable {
                 }
             }
             if (userInputCount != 0)
-
+            {
                 System.out.println("The given word is present in file are " + userInputCount + " times");
+            }
 
             else {
                 System.out.println("The given word is not present in the file");
