@@ -20,7 +20,7 @@ public class SearchFileApplication {
                 SearchingAndCountingOfWords rf = new SearchingAndCountingOfWords(userSearchInput, inputFilePath);
                 rf.run();
             }
-            
+ 
         } catch (IOException e) {
             DataBaseHelper object = new DataBaseHelper();
             object.storingDataToDatabase(inputFilePath, userSearchInput, "error", 0, "file not found");

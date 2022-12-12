@@ -36,13 +36,12 @@ class SearchingAndCountingOfWords implements Runnable {
                     }
                 }
             }
+            DataBaseHelper object=new DataBaseHelper();
             if (userInputCount != 0) {
-                DataBaseHelper object=new DataBaseHelper();
                 object.storingDataToDatabase(inputFilePath, userSearchInput, "Success", totalWordCount, " ");
             //    System.out.println(totalWordCount);
                 System.out.println("The given word is present in file are " + userInputCount + " times");
             } else {
-                DataBaseHelper object=new DataBaseHelper();
                 object.storingDataToDatabase(inputFilePath, userSearchInput, "error", totalWordCount, "word not found");
                 System.out.println("The given word is not present in the file");
             }
