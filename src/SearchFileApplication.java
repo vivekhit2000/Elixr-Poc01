@@ -19,10 +19,11 @@ public class SearchFileApplication {
                 System.out.println("FileFound");
                 SearchingAndCountingOfWords rf = new SearchingAndCountingOfWords(userSearchInput, inputFilePath);
                 rf.run();
-            } else {
-                System.out.println("Content is not there");
             }
+            
         } catch (IOException e) {
+            DataBaseHelper object = new DataBaseHelper();
+            object.storingDataToDatabase(inputFilePath, userSearchInput, "error", 0, "file not found");
             System.out.println("Path is Wrong, You need to check your path");
         }
     }
