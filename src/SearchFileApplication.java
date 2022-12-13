@@ -8,23 +8,33 @@ import java.nio.file.Path;
  */
 public class SearchFileApplication {
     public static void main(String[] args) throws Exception {
-        String inputFilePath = args[0];
-        String userSearchInput = args[1];
-        System.out.println("Processing...");
-        try {
-            Path filepath = Path.of(inputFilePath);
-            String storingFileContent = Files.readAllLines(filepath).get(0);
+        String inputFilePath = "";
+        String userSearchInput = "";
+        if (args.length == 2) {
+            inputFilePath = args[0];
+            userSearchInput = args[1];
 
-            if (storingFileContent != null) {
-                System.out.println("FileFound");
-                SearchingAndCountingOfWords rf = new SearchingAndCountingOfWords(userSearchInput, inputFilePath);
-                rf.run();
+            System.out.println("Processing...");
+        }
+
+
+        try {
+            if (inputFilePath.endsWith("txt") || inputFilePath.endsWith("json")) {
+                Path filepath = Path.of(inputFilePath);
+                String storingFileContent = Files.readAllLines(filepath).get(0);
+
+
+                if (storingFileContent != null) {
+                    System.out.println("FileFound");
+                    SearchingAndCountingOfWords rf = new SearchingAndCountingOfWords(userSearchInput, inputFilePath);
+                    rf.run();
+                }
             }
- 
+
         } catch (IOException e) {
             DataBaseHelper object = new DataBaseHelper();
-            object.storingDataToDatabase(inputFilePath, userSearchInput, "error", 0, "file not found");
-            System.out.println("Path is Wrong, You need to check your path");
+            object.storeDataToDatabase(inputFilePath, userSearchInput, "error", 0, "file not found");
+            System.out.println("Error arguments..! ");
         }
     }
 }

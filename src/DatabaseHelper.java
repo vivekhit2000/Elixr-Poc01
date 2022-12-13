@@ -9,9 +9,9 @@ class DataBaseHelper {
     String userName = "root";
     String passwordOfDatabase = "Imkrv@1066";
     String dateAndTimeFormat = "yyyy/MM/dd HH:mm:ss";
-    String createTable = "create table audit(PathToTheFile varchar(100),SearchedWord varchar(45),DateAndTimeOfSearch varchar(45),result varchar(45),WordCount int,ErrorMessage varchar(100))";
+    String createTable = "create table audit(PathToTheFile varchar(100) , SearchedWord varchar(45) , DateAndTimeOfSearch varchar(45) , result varchar(45) , WordCount int , ErrorMessage varchar(100))";
 
-    public void storingDataToDatabase(String pathToTheFile, String theWordSearched, String result, int wordCount, String errorMessage) throws SQLException {
+    public void storeDataToDatabase(String pathOfTheFile, String userSearchedWord, String result, int repetationOfWordCount, String errorMessage) throws SQLException {
         Connection connectionToDataBase = null;
         Statement st = null;
 
@@ -24,9 +24,9 @@ class DataBaseHelper {
             DatabaseMetaData checkIfTableIsThere = connectionToDataBase.getMetaData();
             ResultSet tables = checkIfTableIsThere.getTables(null, null, "audit", null);
             if (tables.next()) {
-                st.execute("INSERT INTO audit VALUES ('" + pathToTheFile + "','" + theWordSearched + "','" + currentDateAndTime + "','" + result + "'," + wordCount + ",'" + errorMessage + "')");
+                st.execute("INSERT INTO audit VALUES ('" + pathOfTheFile + "','" + userSearchedWord + "','" + currentDateAndTime + "','" + result + "'," + repetationOfWordCount + ",'" + errorMessage + "')");
             } else {
-                this.createingTable(pathToTheFile, theWordSearched, currentDateAndTime, result, wordCount, errorMessage);
+                this.createTable(pathOfTheFile, userSearchedWord, currentDateAndTime, result, repetationOfWordCount, errorMessage);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -35,14 +35,14 @@ class DataBaseHelper {
         }
     }
 
-    private void createingTable(String filepath, String searchedWord, String currentDateAndTime, String resultToDatabase, int totalNoOfWords, String errorMessage) throws SQLException {
+    private void createTable(String pathOfTheFile, String userSearchedWord, String currentDateAndTime, String resultToDatabase, int totalNoOfWords, String errorMessage) throws SQLException {
         Connection connectionToDataBase = null;
         try {
             Class.forName(this.driverClass);
             connectionToDataBase = DriverManager.getConnection(this.mySqlUrl, this.userName, this.passwordOfDatabase);
             Statement st = connectionToDataBase.createStatement();
             st.execute(this.createTable);
-            st.execute("INSERT INTO audit VALUES ('" + filepath + "','" + searchedWord + "','" + currentDateAndTime + "','" + resultToDatabase + "'," + totalNoOfWords + ",'" + errorMessage + "')");
+            st.execute("INSERT INTO audit VALUES ('" + pathOfTheFile + "','" + userSearchedWord + "','" + currentDateAndTime + "','" + resultToDatabase + "'," + totalNoOfWords + ",'" + errorMessage + "')");
 
         } catch (Exception e) {
             System.out.println(e);
