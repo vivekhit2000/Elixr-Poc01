@@ -1,6 +1,4 @@
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
+import java.io.File;
 
 /*
  *SearchFileApplication is used to find the file path.
@@ -16,26 +14,23 @@ public class SearchFileApplication {
 
             System.out.println("Processing...");
         }
-
-
-        try {
-            if (inputFilePath.endsWith("txt") || inputFilePath.endsWith("json")) {
-                Path filepath = Path.of(inputFilePath);
-                String storingFileContent = Files.readAllLines(filepath).get(0);
-
-
-                if (storingFileContent != null) {
-                    System.out.println("FileFound");
-                    SearchingAndCountingOfWords rf = new SearchingAndCountingOfWords(userSearchInput, inputFilePath);
-                    rf.run();
-                }
+        
+        if (inputFilePath.endsWith("txt") || inputFilePath.endsWith("json")) {
+            File file = new File(inputFilePath);
+            if (file.exists()) {
+                System.out.println("FileFound");
+                SearchingAndCountingOfWords rf = new SearchingAndCountingOfWords(userSearchInput, inputFilePath);
+                rf.run();
+            } else {
+                DataBaseHelper object = new DataBaseHelper();
+                object.storeDataToDatabase(inputFilePath, userSearchInput, "error", 0, "file not found");
+                System.out.println("Error arguments..! ");
             }
-
-        } catch (IOException e) {
-            DataBaseHelper object = new DataBaseHelper();
-            object.storeDataToDatabase(inputFilePath, userSearchInput, "error", 0, "file not found");
-            System.out.println("Error arguments..! ");
+        } else {
+            System.out.println("Error! your file is not in txt or json format");
         }
+
+
     }
 }
 

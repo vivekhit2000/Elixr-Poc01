@@ -11,12 +11,10 @@ class SearchingAndCountingOfWords implements Runnable {
     protected String userSearchInput;
     protected int userInputCount = 0;
 
-    SearchingAndCountingOfWords(String userSearchInput, String inputFilePath) {
+    SearchingAndCountingOfWords(String userSearchInput,String inputfilepath) {
         this.userSearchInput = userSearchInput;
-        this.inputFilePath = inputFilePath;
-
+        this.inputFilePath=inputfilepath;
     }
-
     @Override
     public void run() {
         try {
@@ -24,9 +22,8 @@ class SearchingAndCountingOfWords implements Runnable {
             File filePathReader = new File(inputFilePath);
             FileReader readContentofFle = new FileReader(filePathReader);
             BufferedReader br = new BufferedReader(readContentofFle);
+
             String inputForSplit;
-
-
             while ((inputForSplit = br.readLine()) != null) {
                 words = inputForSplit.split("[.,!@#$%*()=/;:+_ ]");
                 for (String word : words) {
@@ -44,8 +41,6 @@ class SearchingAndCountingOfWords implements Runnable {
                 object.storeDataToDatabase(inputFilePath, userSearchInput, "error", userInputCount, "word not found");
                 System.out.println("The given word is not present in the file");
             }
-
-
         } catch (Exception e) {
             e.printStackTrace();
         }

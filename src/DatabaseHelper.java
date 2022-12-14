@@ -18,8 +18,9 @@ class DataBaseHelper {
         DateTimeFormatter dateAndTimeFormater = DateTimeFormatter.ofPattern(this.dateAndTimeFormat);
         LocalDateTime now = LocalDateTime.now();
         String currentDateAndTime = dateAndTimeFormater.format(now);
+        DataBaseHelper object = new DataBaseHelper();
         try {
-            connectionToDataBase = DriverManager.getConnection(this.mySqlUrl, this.userName, this.passwordOfDatabase);
+            connectionToDataBase = object.connectionTODatabase();
             st = connectionToDataBase.createStatement();
             DatabaseMetaData checkIfTableIsThere = connectionToDataBase.getMetaData();
             ResultSet tables = checkIfTableIsThere.getTables(null, null, "audit", null);
@@ -36,10 +37,8 @@ class DataBaseHelper {
     }
 
     private void createTable(String pathOfTheFile, String userSearchedWord, String currentDateAndTime, String resultToDatabase, int totalNoOfWords, String errorMessage) throws SQLException {
-        Connection connectionToDataBase = null;
+        Connection connectionToDataBase = connectionTODatabase();
         try {
-            Class.forName(this.driverClass);
-            connectionToDataBase = DriverManager.getConnection(this.mySqlUrl, this.userName, this.passwordOfDatabase);
             Statement st = connectionToDataBase.createStatement();
             st.execute(this.createTable);
             st.execute("INSERT INTO audit VALUES ('" + pathOfTheFile + "','" + userSearchedWord + "','" + currentDateAndTime + "','" + resultToDatabase + "'," + totalNoOfWords + ",'" + errorMessage + "')");
@@ -49,6 +48,20 @@ class DataBaseHelper {
         } finally {
             Objects.requireNonNull(connectionToDataBase).close();
         }
+    }
+
+    private Connection connectionTODatabase() {
+        Connection connectionToDataBase = null;
+        try {
+            Class.forName(this.driverClass);
+            connectionToDataBase = DriverManager.getConnection(this.mySqlUrl, this.userName, this.passwordOfDatabase);
+            return connectionToDataBase;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return connectionToDataBase;
+        }
+
+
     }
 }
 
