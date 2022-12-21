@@ -1,28 +1,47 @@
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.sql.SQLException;
 
 /*
  *SearchingAndCountingOfWords is used for Search the user input and if the input is found in the file, it will count the words.
  */
 class SearchingAndCountingOfWords implements Runnable {
 
-    private final String inputFilePath;
+    protected String inputFilePath;
     protected String userSearchInput;
     protected int userInputCount = 0;
 
-    SearchingAndCountingOfWords(String userSearchInput,String inputfilepath) {
+    SearchingAndCountingOfWords(String userSearchInput, String inputfilepath) {
         this.userSearchInput = userSearchInput;
-        this.inputFilePath=inputfilepath;
+        this.inputFilePath = inputfilepath;
     }
+
     @Override
     public void run() {
+
+        if (inputFilePath.endsWith("txt") || inputFilePath.endsWith("json")) {
+            File file = new File(inputFilePath);
+            if (file.exists()) {
+                System.out.println("FileFound");
+                countingofWords();
+            } else {
+                try {
+                    SearchFileApplication.errorMessage(inputFilePath, userSearchInput);
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        }
+
+    }
+
+    public void countingofWords() {
         try {
-            String[] words = null;
-            File filePathReader = new File(inputFilePath);
+            File filePathReader = new File(this.inputFilePath);
             FileReader readContentofFle = new FileReader(filePathReader);
             BufferedReader br = new BufferedReader(readContentofFle);
-
+            String[] words = null;
             String inputForSplit;
             while ((inputForSplit = br.readLine()) != null) {
                 words = inputForSplit.split("[.,!@#$%*()=/;:+_ ]");
@@ -32,20 +51,13 @@ class SearchingAndCountingOfWords implements Runnable {
                     }
                 }
             }
-            DataBaseHelper object = new DataBaseHelper();
-            if (userInputCount != 0) {
-                object.storeDataToDatabase(inputFilePath, userSearchInput, "Success", userInputCount, " ");
-                //    System.out.println(totalWordCount);
-                System.out.println("The given word is present in file are " + userInputCount + " times");
-            } else {
-                object.storeDataToDatabase(inputFilePath, userSearchInput, "error", userInputCount, "word not found");
-                System.out.println("The given word is not present in the file");
-            }
+            SearchFileApplication.displayResult(this.inputFilePath,this.userSearchInput,userInputCount);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 }
+
 
 
 

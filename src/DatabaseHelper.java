@@ -1,4 +1,5 @@
 import java.sql.*;
+import java.text.MessageFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Objects;
@@ -25,7 +26,9 @@ class DataBaseHelper {
             DatabaseMetaData checkIfTableIsThere = connectionToDataBase.getMetaData();
             ResultSet tables = checkIfTableIsThere.getTables(null, null, "audit", null);
             if (tables.next()) {
-                st.execute("INSERT INTO audit VALUES ('" + pathOfTheFile + "','" + userSearchedWord + "','" + currentDateAndTime + "','" + result + "'," + repetationOfWordCount + ",'" + errorMessage + "')");
+                String query= MessageFormat.format("INSERT INTO audit VALUES ({0},{1},{2},{3},{4},{5})","'" + pathOfTheFile + "'","'" + userSearchedWord + "'","'" + currentDateAndTime + "'","'" + result + "'","'"+ repetationOfWordCount + "'","'" + errorMessage + "'" );
+                st.execute(query);
+
             } else {
                 this.createTable(pathOfTheFile, userSearchedWord, currentDateAndTime, result, repetationOfWordCount, errorMessage);
             }
@@ -41,7 +44,8 @@ class DataBaseHelper {
         try {
             Statement st = connectionToDataBase.createStatement();
             st.execute(this.createTable);
-            st.execute("INSERT INTO audit VALUES ('" + pathOfTheFile + "','" + userSearchedWord + "','" + currentDateAndTime + "','" + resultToDatabase + "'," + totalNoOfWords + ",'" + errorMessage + "')");
+            String query= MessageFormat.format("INSERT INTO audit VALUES ({0},{1},{2},{3},{4},{5})","'" + pathOfTheFile + "'","'" + userSearchedWord + "'","'" + currentDateAndTime + "'","'" + resultToDatabase + "'","'"+ totalNoOfWords + "'","'" + errorMessage + "'" );
+            st.execute(query);
 
         } catch (Exception e) {
             System.out.println(e);
