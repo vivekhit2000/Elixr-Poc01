@@ -5,18 +5,12 @@ import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 
 class DataBaseHelper {
-    String driverClass = "com.mysql.cj.jdbc.Driver";
-    String mySqlUrl = "jdbc:mysql://localhost:3306/POC";
-    String userName = "root";
-    String passwordOfDatabase = "Imkrv@1066";
-    String dateAndTimeFormat = "yyyy/MM/dd HH:mm:ss";
-    String createTable = "create table audit(PathToTheFile varchar(100) , SearchedWord varchar(45) , DateAndTimeOfSearch varchar(45) , result varchar(45) , WordCount int , ErrorMessage varchar(100))";
 
     public void storeDataToDatabase(String pathOfTheFile, String userSearchedWord, String result, int repetationOfWordCount, String errorMessage) throws SQLException {
         Connection connectionToDataBase = null;
         Statement st = null;
 
-        DateTimeFormatter dateAndTimeFormater = DateTimeFormatter.ofPattern(this.dateAndTimeFormat);
+        DateTimeFormatter dateAndTimeFormater = DateTimeFormatter.ofPattern(Constants.DATE_AND_TIME_FORMAT);
         LocalDateTime now = LocalDateTime.now();
         String currentDateAndTime = dateAndTimeFormater.format(now);
         DataBaseHelper object = new DataBaseHelper();
@@ -26,7 +20,7 @@ class DataBaseHelper {
             DatabaseMetaData checkIfTableIsThere = connectionToDataBase.getMetaData();
             ResultSet tables = checkIfTableIsThere.getTables(null, null, "audit", null);
             if (tables.next()) {
-                String query= MessageFormat.format("INSERT INTO audit VALUES ({0},{1},{2},{3},{4},{5})","'" + pathOfTheFile + "'","'" + userSearchedWord + "'","'" + currentDateAndTime + "'","'" + result + "'","'"+ repetationOfWordCount + "'","'" + errorMessage + "'" );
+                String query = MessageFormat.format("INSERT INTO audit VALUES ({0},{1},{2},{3},{4},{5})", "'" + pathOfTheFile + "'", "'" + userSearchedWord + "'", "'" + currentDateAndTime + "'", "'" + result + "'", "'" + repetationOfWordCount + "'", "'" + errorMessage + "'");
                 st.execute(query);
 
             } else {
@@ -43,8 +37,8 @@ class DataBaseHelper {
         Connection connectionToDataBase = connectionTODatabase();
         try {
             Statement st = connectionToDataBase.createStatement();
-            st.execute(this.createTable);
-            String query= MessageFormat.format("INSERT INTO audit VALUES ({0},{1},{2},{3},{4},{5})","'" + pathOfTheFile + "'","'" + userSearchedWord + "'","'" + currentDateAndTime + "'","'" + resultToDatabase + "'","'"+ totalNoOfWords + "'","'" + errorMessage + "'" );
+            st.execute(Constants.CREATE_TABLE);
+            String query = MessageFormat.format("INSERT INTO audit VALUES ({0},{1},{2},{3},{4},{5})", "'" + pathOfTheFile + "'", "'" + userSearchedWord + "'", "'" + currentDateAndTime + "'", "'" + resultToDatabase + "'", "'" + totalNoOfWords + "'", "'" + errorMessage + "'");
             st.execute(query);
 
         } catch (Exception e) {
@@ -57,8 +51,8 @@ class DataBaseHelper {
     private Connection connectionTODatabase() {
         Connection connectionToDataBase = null;
         try {
-            Class.forName(this.driverClass);
-            connectionToDataBase = DriverManager.getConnection(this.mySqlUrl, this.userName, this.passwordOfDatabase);
+            Class.forName(Constants.DRIVER_CLASS);
+            connectionToDataBase = DriverManager.getConnection(Constants.MY_SQL_URL, Constants.USER_NAME, Constants.PASSWORD_OF_DATABASE);
             return connectionToDataBase;
         } catch (Exception e) {
             e.printStackTrace();

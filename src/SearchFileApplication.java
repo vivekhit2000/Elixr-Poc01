@@ -8,7 +8,7 @@ public class SearchFileApplication {
     public static void main(String[] args) throws Exception {
         String inputFilePath = "";
         String userSearchInput = "";
-        if (args.length == 2) {
+        if (args.length == Constants.argumentlength) {
             inputFilePath = args[0];
             userSearchInput = args[1];
 
