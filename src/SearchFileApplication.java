@@ -14,17 +14,14 @@ public class SearchFileApplication {
         if (args.length == Constants.ARGUMENT_LENGTH) {
             inputFilePath = args[0];
             userSearchInput = args[1];
-
             System.out.println("Processing...");
         }
-
         ExecutorService threadPool = Executors.newFixedThreadPool(1);
         Future<Integer> welcomeChildThread = threadPool.submit(new SearchingAndCountingOfWords(userSearchInput, inputFilePath));
         int userInputCount = welcomeChildThread.get();
         displayResult(inputFilePath, userSearchInput, userInputCount);
         threadPool.close();
     }
-
     public static void displayResult(String inputFilePath, String userSearchInput, int userInputCount) {
         DataBaseHelper object = new DataBaseHelper();
         if (userInputCount != 0) {

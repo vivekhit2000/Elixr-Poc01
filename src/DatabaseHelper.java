@@ -5,7 +5,6 @@ import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 
 class DataBaseHelper {
-
     public void storeDataToDatabase(String pathOfTheFile, String userSearchedWord, String result, int repetationOfWordCount, String errorMessage) throws SQLException {
         Connection connectionToDataBase = null;
         Statement st = null;
@@ -58,8 +57,6 @@ class DataBaseHelper {
             e.printStackTrace();
             return connectionToDataBase;
         }
-
-
     }
 }
 
