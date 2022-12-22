@@ -21,7 +21,7 @@ class SearchingAndCountingOfWords implements Callable<Integer> {
 
     public void countOperations() {
 
-        if (inputFilePath.endsWith("txt") || inputFilePath.endsWith("json")) {
+        if (inputFilePath.endsWith(Constants.TXT_EXTENSION) || inputFilePath.endsWith(Constants.JSON_EXTENSION)) {
             File file = new File(inputFilePath);
             if (file.exists()) {
                 System.out.println("FileFound");

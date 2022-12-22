@@ -1,6 +1,8 @@
 public class Constants {
 
     public static final int ARGUMENT_LENGTH = 2;
+    public static final String TXT_EXTENSION = "txt";
+    public static final String JSON_EXTENSION = "json";
     public static final String DRIVER_CLASS = "com.mysql.cj.jdbc.Driver";
     public static final String MY_SQL_URL = "jdbc:mysql://localhost:3306/POC";
     public static final String USER_NAME = "root";
