@@ -2,11 +2,12 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.sql.SQLException;
+import java.util.concurrent.Callable;
 
 /*
  *SearchingAndCountingOfWords is used for Search the user input and if the input is found in the file, it will count the words.
  */
-class SearchingAndCountingOfWords implements Runnable {
+class SearchingAndCountingOfWords implements Callable<Integer> {
 
     protected String inputFilePath;
     protected String userSearchInput;
@@ -17,8 +18,8 @@ class SearchingAndCountingOfWords implements Runnable {
         this.inputFilePath = inputfilepath;
     }
 
-    @Override
-    public void run() {
+
+    public void countOperations() {
 
         if (inputFilePath.endsWith("txt") || inputFilePath.endsWith("json")) {
             File file = new File(inputFilePath);
@@ -51,10 +52,16 @@ class SearchingAndCountingOfWords implements Runnable {
                     }
                 }
             }
-            SearchFileApplication.displayResult(this.inputFilePath,this.userSearchInput,userInputCount);
+
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public Integer call() throws Exception {
+        countOperations();
+        return userInputCount;
     }
 }
 

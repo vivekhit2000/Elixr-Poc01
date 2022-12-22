@@ -1,4 +1,7 @@
 import java.sql.SQLException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 /*
  *SearchFileApplication is used to find the file path.
@@ -8,16 +11,18 @@ public class SearchFileApplication {
     public static void main(String[] args) throws Exception {
         String inputFilePath = "";
         String userSearchInput = "";
-        if (args.length == Constants.argumentlength) {
+        if (args.length == Constants.ARGUMENT_LENGTH) {
             inputFilePath = args[0];
             userSearchInput = args[1];
 
             System.out.println("Processing...");
         }
 
-        SearchingAndCountingOfWords rf = new SearchingAndCountingOfWords(userSearchInput, inputFilePath);
-        Thread rfthread = new Thread(rf);
-        rfthread.start();
+        ExecutorService threadPool = Executors.newFixedThreadPool(1);
+        Future<Integer> welcomeChildThread = threadPool.submit(new SearchingAndCountingOfWords(userSearchInput, inputFilePath));
+        int userInputCount = welcomeChildThread.get();
+        displayResult(inputFilePath, userSearchInput, userInputCount);
+        threadPool.close();
     }
 
     public static void displayResult(String inputFilePath, String userSearchInput, int userInputCount) {
@@ -38,9 +43,7 @@ public class SearchFileApplication {
             }
             System.out.println("The given word is not present in the file");
         }
-
     }
-
     public static void errorMessage(String inputFilePath, String userSearchInput) throws SQLException {
         DataBaseHelper object = new DataBaseHelper();
         object.storeDataToDatabase(inputFilePath, userSearchInput, "error", 0, "file not found");
