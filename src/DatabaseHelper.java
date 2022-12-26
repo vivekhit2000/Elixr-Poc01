@@ -14,12 +14,12 @@ class DataBaseHelper {
         String currentDateAndTime = dateAndTimeFormater.format(now);
         DataBaseHelper object = new DataBaseHelper();
         try {
-            connectionToDataBase = object.connectionTODatabase();
+            connectionToDataBase = object.connectToDatabase();
             st = connectionToDataBase.createStatement();
             DatabaseMetaData checkIfTableIsThere = connectionToDataBase.getMetaData();
-            ResultSet tables = checkIfTableIsThere.getTables(null, null, "audit", null);
+            ResultSet tables = checkIfTableIsThere.getTables(null, null, Constants.AUDIT, null);
             if (tables.next()) {
-                String query = MessageFormat.format("INSERT INTO audit VALUES ({0},{1},{2},{3},{4},{5})", "'" + pathOfTheFile + "'", "'" + userSearchedWord + "'", "'" + currentDateAndTime + "'", "'" + result + "'", "'" + repetationOfWordCount + "'", "'" + errorMessage + "'");
+                String query = MessageFormat.format("INSERT INTO AUDIT VALUES ({0},{1},{2},{3},{4},{5})", "'" + pathOfTheFile + "'", "'" + userSearchedWord + "'", "'" + currentDateAndTime + "'", "'" + result + "'", "'" + repetationOfWordCount + "'", "'" + errorMessage + "'");
                 st.execute(query);
 
             } else {
@@ -33,7 +33,7 @@ class DataBaseHelper {
     }
 
     private void createTable(String pathOfTheFile, String userSearchedWord, String currentDateAndTime, String resultToDatabase, int totalNoOfWords, String errorMessage) throws SQLException {
-        Connection connectionToDataBase = connectionTODatabase();
+        Connection connectionToDataBase = connectToDatabase();
         try {
             Statement st = connectionToDataBase.createStatement();
             st.execute(Constants.CREATE_TABLE);
@@ -47,7 +47,7 @@ class DataBaseHelper {
         }
     }
 
-    private Connection connectionTODatabase() {
+    private Connection connectToDatabase() {
         Connection connectionToDataBase = null;
         try {
             Class.forName(Constants.DRIVER_CLASS);

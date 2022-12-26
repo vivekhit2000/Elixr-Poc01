@@ -39,7 +39,7 @@ class SearchingAndCountingOfWords implements Callable<Integer> {
             String[] words = null;
             String inputForSplit;
             while ((inputForSplit = br.readLine()) != null) {
-                words = inputForSplit.split("[.,!@#$%*()=/;:+_ ]");
+                words = inputForSplit.split(Constants.SPECIALCHARACTER);
                 for (String word : words) {
                     if (word.equals(userSearchInput)) {
                         userInputCount++;

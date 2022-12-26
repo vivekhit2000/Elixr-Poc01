@@ -1,5 +1,7 @@
 public class Constants {
 
+    public static final String SPECIALCHARACTER = "[.,!@#$%*()=/;:+_ ]";
+    public static final String AUDIT ="audit";
     public static final int ARGUMENT_LENGTH = 2;
     public static final String TXT_EXTENSION = "txt";
     public static final String JSON_EXTENSION = "json";
