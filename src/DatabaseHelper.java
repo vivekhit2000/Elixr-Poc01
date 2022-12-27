@@ -23,7 +23,7 @@ class DataBaseHelper {
                 st.execute(query);
 
             } else {
-                this.createTable(pathOfTheFile, userSearchedWord, currentDateAndTime, result, repetationOfWordCount, errorMessage);
+                this.createTableAndInsertDataToDatabase(pathOfTheFile, userSearchedWord, currentDateAndTime, result, repetationOfWordCount, errorMessage);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -32,7 +32,7 @@ class DataBaseHelper {
         }
     }
 
-    private void createTable(String pathOfTheFile, String userSearchedWord, String currentDateAndTime, String resultToDatabase, int totalNoOfWords, String errorMessage) throws SQLException {
+    private void createTableAndInsertDataToDatabase(String pathOfTheFile, String userSearchedWord, String currentDateAndTime, String resultToDatabase, int totalNoOfWords, String errorMessage) throws SQLException {
         Connection connectionToDataBase = connectToDatabase();
         try {
             Statement st = connectionToDataBase.createStatement();
@@ -59,5 +59,3 @@ class DataBaseHelper {
         }
     }
 }
-
-

@@ -7,6 +7,7 @@ import java.util.concurrent.Future;
  *SearchFileApplication is used to find the file path.
  * And use try catch to handle exception when user gives the wrong path.
  */
+
 public class SearchFileApplication {
     public static void main(String[] args) throws Exception {
         String inputFilePath = "";
@@ -22,6 +23,7 @@ public class SearchFileApplication {
         displayResult(inputFilePath, userSearchInput, userInputCount);
         threadPool.close();
     }
+
     public static void displayResult(String inputFilePath, String userSearchInput, int userInputCount) {
         DataBaseHelper object = new DataBaseHelper();
         if (userInputCount != 0) {
@@ -41,6 +43,7 @@ public class SearchFileApplication {
             System.out.println("The given word is not present in the file");
         }
     }
+
     public static void errorMessage(String inputFilePath, String userSearchInput) throws SQLException {
         DataBaseHelper object = new DataBaseHelper();
         object.storeDataToDatabase(inputFilePath, userSearchInput, "error", 0, "file not found");

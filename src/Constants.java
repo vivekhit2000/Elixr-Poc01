@@ -1,5 +1,4 @@
 public class Constants {
-
     public static final String SPECIALCHARACTER = "[.,!@#$%*()=/;:+_ ]";
     public static final String AUDIT ="audit";
     public static final int ARGUMENT_LENGTH = 2;
@@ -11,5 +10,4 @@ public class Constants {
     public static final String PASSWORD_OF_DATABASE = "Imkrv@1066";
     public static final String DATE_AND_TIME_FORMAT = "yyyy/MM/dd HH:mm:ss";
     public static final String CREATE_TABLE = "create table audit(PathToTheFile varchar(100) , SearchedWord varchar(45) , DateAndTimeOfSearch varchar(45) , result varchar(45) , WordCount int , ErrorMessage varchar(100))";
-
 }
