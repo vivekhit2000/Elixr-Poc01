@@ -8,7 +8,6 @@ class DataBaseHelper {
     public void storeDataToDatabase(String pathOfTheFile, String userSearchedWord, String result, int repetationOfWordCount, String errorMessage) throws SQLException {
         Connection connectionToDataBase = null;
         Statement st = null;
-
         DateTimeFormatter dateAndTimeFormater = DateTimeFormatter.ofPattern(Constants.DATE_AND_TIME_FORMAT);
         LocalDateTime now = LocalDateTime.now();
         String currentDateAndTime = dateAndTimeFormater.format(now);
@@ -21,7 +20,6 @@ class DataBaseHelper {
             if (tables.next()) {
                 String query = MessageFormat.format("INSERT INTO AUDIT VALUES ({0},{1},{2},{3},{4},{5})", "'" + pathOfTheFile + "'", "'" + userSearchedWord + "'", "'" + currentDateAndTime + "'", "'" + result + "'", "'" + repetationOfWordCount + "'", "'" + errorMessage + "'");
                 st.execute(query);
-
             } else {
                 this.createTableAndInsertDataToDatabase(pathOfTheFile, userSearchedWord, currentDateAndTime, result, repetationOfWordCount, errorMessage);
             }
@@ -39,7 +37,6 @@ class DataBaseHelper {
             st.execute(Constants.CREATE_TABLE);
             String query = MessageFormat.format("INSERT INTO audit VALUES ({0},{1},{2},{3},{4},{5})", "'" + pathOfTheFile + "'", "'" + userSearchedWord + "'", "'" + currentDateAndTime + "'", "'" + resultToDatabase + "'", "'" + totalNoOfWords + "'", "'" + errorMessage + "'");
             st.execute(query);
-
         } catch (Exception e) {
             System.out.println(e);
         } finally {

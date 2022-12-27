@@ -32,7 +32,6 @@ public class SearchFileApplication {
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }
-            //    System.out.println(totalWordCount);
             System.out.println("The given word is present in file are " + userInputCount + " times");
         } else {
             try {
