@@ -49,7 +49,3 @@ public class SearchFileApplication {
         System.out.println("Error arguments..! ");
     }
 }
-
-
-
-
